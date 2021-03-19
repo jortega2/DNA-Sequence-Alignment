@@ -19,9 +19,9 @@ DNA::DNA(){
 	}
 }
 DNA::DNA(std::string a, std::string b) {
-	//might need code from default constructor as well.
-	dna_1 = a;
-	dna_2 = b;
+	a[0] == '0' ? dna_1 = a : dna_1 = '0' + a;
+	b[0] == '0' ? dna_2 = b : dna_2 = '0' + b;
+
 	//cost table
 	cost[std::pair<char, char>('A', 'A')] = cost[std::pair<char, char>('G', 'G')]
 		= cost[std::pair<char, char>('C', 'C')] = cost[std::pair<char, char>('T', 'T')] = 1;
@@ -45,10 +45,10 @@ void DNA::setSecondDNA(std::string a) {
 	dna_2 = a;
 }
 void DNA::calcArray() {
-	//fix lookup. Maybe possible without lookUp?
+
 	for (int i = 1; i < 21; i++) {
 		for (int j = 1; j < 21; j++) {
-			table[i][j] = std::max(std::max(table[i - 1][j - 1] + cost[std::pair<char, char>(dna_1[i-1],dna_2[j-1])], table[i - 1][j] - .2), table[i][j - 1] - .2);
+			table[i][j] = std::max(std::max(table[i - 1][j - 1] + cost[std::make_pair(dna_1[i], dna_2[j])], table[i - 1][j] - .2), table[i][j - 1] - .2);
 		}
 	}
 }
@@ -56,9 +56,9 @@ void DNA::displayArray() {
 	//add arrows, colors, etc..
 	for (int i = 0; i <= 20; i++) {
 		for (int j = 0; j <= 20; j++) {
-			std::cout << std::setw(5) << std::fixed << std::setprecision(2) << table[i][j] << ' ';
+			std::cout << std::setw(5) << std::fixed << std::setprecision(1) << table[i][j] << ' ';
 		}
-		std::cout << std::endl;
+		std::cout << '\n';
 	}
 }
 void DNA::displayAlignment() {
