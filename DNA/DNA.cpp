@@ -74,9 +74,20 @@ void DNA::calcArray() {
 }
 void DNA::displayArray() {
 	//add arrows, colors, etc..
+	std::cout<< std::left << std::setw(6) << ' ' << std::left<< std::setw(6) << '0';
+	for (int i = 0; i <= cols; i++) {
+		std::cout << std::left << std::setw(6) << dna_2[i];
+	}
+	std::cout << '\n';
 	for (int i = 0; i <= rows; i++) {
+		if (i == 0) {
+			std::cout << std::left << std::setw(6) << '0';
+		}
+		else {
+			std::cout << std::left << std::setw(6) << dna_1[i - 1];
+		}
 		for (int j = 0; j <= cols; j++) {
-			std::cout << std::setw(5) << std::fixed << std::setprecision(1) << table[i][j] << ' ';
+			std::cout << std::left << std::setw(6) << std::fixed << std::setprecision(1) << table[i][j];
 		}
 		std::cout << '\n';
 	}
@@ -114,8 +125,8 @@ void DNA::dispAlignment() {
 		}
 	}
 	
-	std::cout << dna2 << ' ' << '\n';
-	std::cout << dna1 << ' ' << '\n';
+	std::cout << dna2  << '\n';
+	std::cout << dna1  << '\n';
 }
 double DNA::getAlignmentScore() {
 	return table[rows-1][cols-1];
