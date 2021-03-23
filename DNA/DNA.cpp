@@ -22,20 +22,6 @@ DNA::DNA(std::string a, std::string b) {
 	rows = dna_1.length();
 	cols = dna_2.length();
 
-	//dynamic 2d array
-	table = new double* [rows+1];
-	for (int i = 0; i < rows+1; i++) {
-		table[i] = new double[cols+1];
-	}
-	//base cases
-	table[0][0] = 0;
-	for (int i = 1; i <= rows; i++) {
-		table[i][0] = table[i - 1][0] - .2;
-	}
-	for (int i = 1; i <= cols; i++) {
-		table[0][i] = table[0][i - 1] - .2;
-	}
-
 	//cost table
 	cost[std::pair<char, char>('A', 'A')] = cost[std::pair<char, char>('G', 'G')]
 		= cost[std::pair<char, char>('C', 'C')] = cost[std::pair<char, char>('T', 'T')] = 1;
@@ -63,7 +49,21 @@ void DNA::setSecondDNA(std::string a) {
 	dna_2 = a;
 	rows = dna_2.length();
 }
-void DNA::calcArray() {
+void DNA::calcTable() {
+	//initialize dynamic 2d array
+	table = new double* [rows + 1];
+	for (int i = 0; i < rows + 1; i++) {
+		table[i] = new double[cols + 1];
+	}
+	//base cases
+	table[0][0] = 0;
+	for (int i = 1; i <= rows; i++) {
+		table[i][0] = table[i - 1][0] - .2;
+	}
+	for (int i = 1; i <= cols; i++) {
+		table[0][i] = table[0][i - 1] - .2;
+	}
+	//dynamic programming
 	for (int i = 1; i <= rows; i++) {
 		for (int j = 1; j <= cols; j++) {
 			table[i][j] = std::max({table[i - 1][j - 1] + cost[std::make_pair(dna_1[i-1], dna_2[j-1])],
@@ -72,32 +72,37 @@ void DNA::calcArray() {
 		}
 	}
 }
-void DNA::displayArray() {
-	//add arrows, colors, etc..
+void DNA::displayTable() {
+	//output column titles
 	std::cout<< std::left << std::setw(6) << ' ' << std::left<< std::setw(6) << '0';
 	for (int i = 0; i <= cols; i++) {
 		std::cout << std::left << std::setw(6) << dna_2[i];
 	}
 	std::cout << '\n';
+
 	for (int i = 0; i <= rows; i++) {
+		//output row titles
 		if (i == 0) {
 			std::cout << std::left << std::setw(6) << '0';
 		}
 		else {
 			std::cout << std::left << std::setw(6) << dna_1[i - 1];
 		}
+		//output data
 		for (int j = 0; j <= cols; j++) {
 			std::cout << std::left << std::setw(6) << std::fixed << std::setprecision(1) << table[i][j];
 		}
 		std::cout << '\n';
 	}
 }
-void DNA::dispAlignment() {
+void DNA::displayAlignment() {
 	int i = int(rows);
 	int j = int(cols);
 
 	std::string dna1 = "";
 	std::string dna2 = "";
+
+	//backtracking to find an optimal alignment. 
 	while (!(i == 0 || j == 0)) {
 		if (table[i-1][j-1] + cost[std::make_pair(dna_1[i-1], dna_2[j-1])] == table[i][j]) {
 			dna1.insert(0, 1, dna_1[--i]);
@@ -129,5 +134,5 @@ void DNA::dispAlignment() {
 	std::cout << dna1  << '\n';
 }
 double DNA::getAlignmentScore() {
-	return table[rows-1][cols-1];
+	return table[rows][cols];
 }

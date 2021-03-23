@@ -1,6 +1,6 @@
-#pragma once
-#ifndef DNA_H_
-#define DNA_H_
+//header file for DNA class. A DNA object holds two DNA strands in string format and is able to find an optimal alignment between them.
+#ifndef DNA_H
+#define DNA_H
 
 #include<iostream>
 #include<string>
@@ -23,9 +23,9 @@ public:
 	~DNA();
 	void setFirstDNA(std::string a);
 	void setSecondDNA(std::string b);
-	void calcArray();
-	void displayArray();
-	void dispAlignment();
+	void calcTable();
+	void displayTable();
+	void displayAlignment();
 	double getAlignmentScore();
 };
 
