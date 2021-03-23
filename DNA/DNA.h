@@ -6,6 +6,7 @@
 #include<string>
 #include<map>
 #include<iomanip>
+#include<algorithm>
 
 class DNA {
 private:
@@ -24,7 +25,7 @@ public:
 	void setSecondDNA(std::string b);
 	void calcArray();
 	void displayArray();
-	void displayAlignment();
+	void dispAlignment();
 	double getAlignmentScore();
 };
 

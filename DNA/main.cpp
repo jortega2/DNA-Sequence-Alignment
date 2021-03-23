@@ -5,6 +5,5 @@ int main() {
 	DNA dna("AGCTAATACCCCATACGTTC", "GTGAACGCTGGCGGCGTGCT");
 	dna.calcArray();
 	dna.displayArray();
-
-	return 0;
-}
+	dna.dispAlignment();
+	}
